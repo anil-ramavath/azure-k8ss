@@ -18,15 +18,21 @@ provider "azurerm" {
 }
 
 # ---------------------------------------------------------------------------
-# Auto-discover the sandbox resource group
+# Auto-discover the sandbox resource group (Cross-platform: Linux, macOS & Windows)
 # ---------------------------------------------------------------------------
-# In Azure sandbox environments a resource group is pre-provisioned.
 # If var.resource_group_name is not provided, this external data source automatically
-# queries the sandbox resource group via Azure CLI powershell script.
+# queries the sandbox resource group via az CLI using:
+#   - get_sandbox_rg.bat on Windows
+#   - get_sandbox_rg.sh on Linux / macOS / WSL
 # ---------------------------------------------------------------------------
+locals {
+  is_windows        = substr(pathexpand("~"), 0, 1) != "/"
+  discovery_program = local.is_windows ? ["cmd.exe", "/c", "call", "${path.module}/get_sandbox_rg.bat"] : ["sh", "${path.module}/get_sandbox_rg.sh"]
+}
+
 data "external" "sandbox_rg" {
   count   = var.resource_group_name == null || var.resource_group_name == "" ? 1 : 0
-  program = ["powershell", "-NoProfile", "-ExecutionPolicy", "Bypass", "-File", "${path.module}/get_sandbox_rg.ps1"]
+  program = local.discovery_program
 }
 
 locals {
