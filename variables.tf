@@ -3,9 +3,9 @@
 # ---------------------------------------------------------------------------
 
 variable "subscription_id" {
-  description = "Azure subscription ID."
+  description = "Optional: Azure subscription ID. If null, azurerm will use the active Azure CLI subscription automatically."
   type        = string
-  default     = "80ea84e8-afce-4851-928a-9e2219724c69"
+  default     = null
 }
 
 variable "resource_group_name" {
