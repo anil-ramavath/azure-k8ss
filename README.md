@@ -47,7 +47,7 @@ The deployed AKS cluster matches the exact parameters:
   - Private Cluster: `Disabled`
 - **Default Node Pool (`agentpool`)**:
   - VM Size: `Standard_DS2_v2`
-  - Auto-scaling: `Enabled` (Min: 2, Max: 5, Initial: 2)
+  - Auto-scaling: `Enabled` (Min: 1, Max: 3, Initial: 2) — *adheres to sandbox limits (max 3 nodes)*
   - OS Type / SKU: `Linux` / `Ubuntu`
   - OS Disk: `128 GB Managed`
   - Availability Zones: `["1", "2", "3"]`

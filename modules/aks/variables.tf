@@ -161,9 +161,14 @@ variable "vm_size" {
 }
 
 variable "node_count" {
-  description = "The initial number of nodes which should exist in this Node Pool."
+  description = "The initial number of nodes which should exist in this Node Pool (Sandbox max: 3)."
   type        = number
   default     = 2
+
+  validation {
+    condition     = var.node_count >= 1 && var.node_count <= 3
+    error_message = "Sandbox limit: node_count must be between 1 and 3."
+  }
 }
 
 variable "auto_scaling_enabled" {
@@ -173,15 +178,25 @@ variable "auto_scaling_enabled" {
 }
 
 variable "min_count" {
-  description = "The minimum number of nodes which should exist in this Node Pool."
+  description = "The minimum number of nodes which should exist in this Node Pool (Sandbox max: 3)."
   type        = number
-  default     = 2
+  default     = 1
+
+  validation {
+    condition     = var.min_count >= 1 && var.min_count <= 3
+    error_message = "Sandbox limit: min_count must be between 1 and 3."
+  }
 }
 
 variable "max_count" {
-  description = "The maximum number of nodes which should exist in this Node Pool."
+  description = "The maximum number of nodes which should exist in this Node Pool (Sandbox max: 3)."
   type        = number
-  default     = 5
+  default     = 3
+
+  validation {
+    condition     = var.max_count >= 1 && var.max_count <= 3
+    error_message = "Sandbox limit: max_count cannot exceed 3 nodes per cluster."
+  }
 }
 
 variable "max_pods" {
